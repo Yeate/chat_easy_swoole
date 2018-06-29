@@ -28,5 +28,38 @@ if (!function_exists('user_auth')) {
     }
 }
 
+if (!function_exists('getSocketMsg')) {
+    /**
+     * [getSocketMsg description]
+     * @param  [type] $type    [description]
+     * @param  [type] $data    [description]
+     * @param  [type] $success [description]
+     * @return [type]          [description]
+     */
+    function getSocketMsg($type,$data,$success)
+    {
+        $msg=['success'=>$success,'type'=>$type];
+        switch ($type) {
+            case '1':
+                // 弹窗通知
+                $msg=['success'=>$success,'type'=>$type,'message'=>$data['message']];
+                break;
+            case '0':
+                // 弹窗通知
+                $msg=['success'=>$success,'type'=>$type,'message'=>$data['message']];
+                break;
+            case '2':
+                // 加好友消息
+                $msg=['success'=>$success,'type'=>$type,'data'=>$data];
+                break;
+            default:
+                # code...
+                break;
+        }
+        return json_encode($msg);
+        
+    }
+}
+
 
 

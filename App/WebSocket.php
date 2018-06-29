@@ -16,7 +16,6 @@ class WebSocket implements ParserInterface
         if (!is_array($commandLine)) {
             return 'unknown command';
         }
-
         $CommandBean = new CommandBean();
         $control = isset($commandLine['controller']) ? 'App\\WebSocket\\'. ucfirst($commandLine['controller']) : '';
         $action = $commandLine['action'] ?? 'none';
@@ -25,6 +24,7 @@ class WebSocket implements ParserInterface
         // dd(user_auth($token));
         if(!empty(user_auth($token))){
             //找不到类时访问默认Index类
+            $data['token']=$token;
             $CommandBean->setControllerClass(class_exists($control) ? $control : Index::class);
             $CommandBean->setAction(class_exists($control) ? $action : 'controllerNotFound');
             $CommandBean->setArg('data', $data);

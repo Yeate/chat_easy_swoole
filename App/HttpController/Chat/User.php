@@ -15,13 +15,22 @@ use EasySwoole\Core\Swoole\ServerManager;
  */
 class User extends BaseController
 {
-    /**
-     * 首页方法
-     * @author : evalor <master@evalor.cn>
-     */
-    function index()
-    {
-        echo 123;
+    public function findUser(){
+        $name = $this->request()->getRequestParam('name');
+        $user = $this->auth();
+        if(!empty($user)){
+            if(!empty($name)){
+                $chatUser=ChatUser::where('name','like','%'.$name.'%')->page(20, $this->request());
+                return $this->success($chatUser,'查找成功');
+            }else{
+                throw new \Exception('参数错误', ErrorCode::PARAM_INVITED);
+            }
+        }else{
+            throw new \Exception("用户未登录", 1);
+            
+        }
+
+        
     }
 
     public function register(){
@@ -62,13 +71,12 @@ class User extends BaseController
         
         if(!empty($password)){
             if(!empty($account)){
-                $chatUser=ChatUser::query();
                 switch ($loginType) {
                     case 1:
                         //手机号码 或者用户名 + 密码登录
-                        $chatUser=$chatUser->where('name',$account)->first()
+                        $chatUser=ChatUser::where('name',$account)->first()
                         ;
-                        if (password_verify($password, $chatUser->password)) {
+                        if (!empty($chatUser) && password_verify($password, $chatUser->password)) {
                             //密码正确,返回token
                             $res = [
                                 'chatUser' => $chatUser,
@@ -81,7 +89,7 @@ class User extends BaseController
                         }
                         break;
                     case 2:
-                        $chatUser=$chatUser->where('email',$account)->first();
+                        $chatUser=ChatUser::where('email',$account)->first();
                         if (bcrypt($password)==$chatUser->password) {
                             //密码正确,返回token
                             $res = [
@@ -135,18 +143,6 @@ class User extends BaseController
         }else{
             throw new \Exception("邮箱不能为空", 2);
             
-        }
-
-    }
-
-    function push()
-    {
-        $fd = intval($this->request()->getRequestParam('fd'));
-        $info = ServerManager::getInstance()->getServer()->connection_info($fd);
-        if(is_array($info)){
-            ServerManager::getInstance()->getServer()->push($fd,'push in http at '.time());
-        }else{
-            $this->response()->write("fd {$fd} not exist");
         }
     }
 }

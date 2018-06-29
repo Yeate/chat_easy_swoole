@@ -8,18 +8,18 @@
 
 namespace EasySwoole;
 
+use App\Services\UserService;
 use App\WebSocket;
 use EasySwoole\Core\Component\Di;
 use EasySwoole\Core\Component\SysConst;
 use Illuminate\Database\Capsule\Manager as DB;
+use \App\Utility\Redis;
 use \EasySwoole\Core\AbstractInterface\EventInterface;
 use \EasySwoole\Core\Http\Request;
 use \EasySwoole\Core\Http\Response;
 use \EasySwoole\Core\Swoole\EventHelper;
 use \EasySwoole\Core\Swoole\EventRegister;
 use \EasySwoole\Core\Swoole\ServerManager;
-// 引入上文Redis连接
-use \App\Utility\Redis;
 
 Class EasySwooleEvent implements EventInterface {
 
@@ -44,6 +44,12 @@ Class EasySwooleEvent implements EventInterface {
     public static function mainServerCreate(ServerManager $server,EventRegister $register): void
     {
         EventHelper::registerDefaultOnMessage($register, WebSocket::class);
+
+        $register->add($register::onClose, function (\swoole_server $server, $fd, $reactorId) {
+            //清除Redis fd的全部关联
+            UserService::close($fd);
+        });
+            
         Di::getInstance()->set('REDIS', new Redis(Config::getInstance()->getConf('REDIS')));
 
         // TODO: Implement mainServerCreate() method.
