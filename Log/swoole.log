@@ -1,0 +1,10 @@
+[2018-06-28 09:58:07 *22531.3]	NOTICE	zm_deactivate_swoole (ERROR 9003): worker process is terminated by exit()/die().
+[2018-06-28 09:58:08 $22518.0]	WARNING	swManager_check_exit_status: worker#3 abnormal exit, status=1, signal=0
+[2018-06-28 09:58:35 *22537.3]	NOTICE	zm_deactivate_swoole (ERROR 9003): worker process is terminated by exit()/die().
+[2018-06-28 09:58:35 $22518.0]	WARNING	swManager_check_exit_status: worker#3 abnormal exit, status=1, signal=0
+[2018-06-28 09:58:57 *22559.3]	NOTICE	zm_deactivate_swoole (ERROR 9003): worker process is terminated by exit()/die().
+[2018-06-28 09:58:57 $22546.0]	WARNING	swManager_check_exit_status: worker#3 abnormal exit, status=1, signal=0
+[2018-06-28 09:59:35 *22581.3]	NOTICE	zm_deactivate_swoole (ERROR 9003): worker process is terminated by exit()/die().
+[2018-06-28 09:59:35 $22568.0]	WARNING	swManager_check_exit_status: worker#3 abnormal exit, status=1, signal=0
+[2018-06-28 10:00:33 *22604.3]	NOTICE	zm_deactivate_swoole (ERROR 9003): worker process is terminated by exit()/die().
+[2018-06-28 10:00:34 $22591.0]	WARNING	swManager_check_exit_status: worker#3 abnormal exit, status=1, signal=0
